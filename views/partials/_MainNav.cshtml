@@ -1,0 +1,147 @@
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+		var menu = Umbraco.ContentAtXPath("//xxxxxxxMenu").First();
+		var locations = Umbraco.ContentAtXPath("//xxxxxxxLocations").First();
+		var food = Umbraco.ContentAtXPath("//xxxxxxxOurFood").First();
+		var seekTheGood = Umbraco.ContentAtXPath("//xxxxxxxSeekTheGood").First();
+		var team = Umbraco.ContentAtXPath("//xxxxxxxTeam").First();
+		
+		var pageDetails = new UmbracoHelper(UmbracoContext.Current);
+		IPublishedContent menuPage = pageDetails.TypedContent(1102);
+		IEnumerable<IPublishedContent> utilityMenu1 = menuPage.GetPropertyValue<IEnumerable<IPublishedContent>>("utilityMenu1");
+		IEnumerable<IPublishedContent> utilityMenu2 = menuPage.GetPropertyValue<IEnumerable<IPublishedContent>>("utilityMenu2");
+}
+
+<section class="sidebar @Html.AgeGateCssClass()">
+	<div class="background"></div>
+	<div class="bar">
+		<div class="burger">
+			<div class="x"></div>
+			<div class="y" style="display: block;"></div>
+			<div class="z"></div>
+		</div>
+
+		<aside class="sidebar-social">
+			<a href="@Umbraco.SiteSettings().facebook" class="header-social icon-facebook" title="Like us on Facebook" target="_blank"></a>
+			<a href="@Umbraco.SiteSettings().instagram" class="header-social icon-instagram" title="Follow us on Instagram" target="_blank"></a>
+			<a href="@Umbraco.SiteSettings().twitter" class="header-social icon-twitter" title="Follow us on Twitter" target="_blank"></a>
+			<a href="@Umbraco.SiteSettings().untappd" class="header-social icon-untappd" title="Follow us on Untappd" target="_blank"></a>
+		</aside>
+	</div>
+	<nav class="sidebar-container">
+		<nav class="sidebar-main">
+			@foreach (var item in menu.menu)
+			{
+				string target = "_self";
+				string url = "";
+				string label = item.label;
+				if (!String.IsNullOrEmpty(item.page.ToString()))
+				{
+					url = Umbraco.Content((int)item.page).Url;
+				}
+				else if (!String.IsNullOrEmpty(item.media.ToString()))
+				{
+					target = "_blank";
+					url = Umbraco.Media((int)item.media).Url;
+				}
+				else
+				{
+					url = item.url;
+				}
+				<a href="@url" target="@target" title="@label" class="js-nav-link"><span>@Html.Raw(label)</span></a>
+			}
+		</nav>
+
+		<nav class="sidebar-utility">
+
+		<div class="column">
+			@foreach (var nestedMenu in utilityMenu1)
+			{
+				<section class="sidebar-utility-section js-nav-link">
+				@if (nestedMenu.HasValue("mainLink")) {
+					IEnumerable<dynamic> mainLinks = nestedMenu.GetPropertyValue<IEnumerable<dynamic>>("mainLink");
+					foreach ( var link in mainLinks )
+					{
+						string url = link.Url;
+						string text = link.Name;
+						string target = link.Target;
+						<h3><a href="@url" target="@target">@text</a></h3>
+					}
+				}
+
+				@{
+					IEnumerable<dynamic> nestedMenuItems = nestedMenu.GetPropertyValue<IEnumerable<dynamic>>("nestedMenu");
+					foreach (var item in nestedMenuItems)
+					{
+						string target = "_self";
+						string url = "";
+						string label = item.label;
+						if (!String.IsNullOrEmpty(item.page.ToString()))
+						{
+							url = Umbraco.Content((int)item.page).Url;
+						}
+						else if (!String.IsNullOrEmpty(item.media.ToString()))
+						{
+							target = "_blank";
+							url = Umbraco.Media((int)item.media).Url;
+						}
+						else
+						{
+							target = "_blank";
+							url = item.url;
+						}
+						<a href="@url" title="@label" target="@target"><span>@Html.Raw(label)</span></a>
+					}
+				}
+				</section>
+			}
+		</div>
+
+		<div class="column">
+			@foreach (var nestedMenu in utilityMenu2)
+			{
+				<section class="sidebar-utility-section js-nav-link">
+				@if (nestedMenu.HasValue("mainLink")) {
+					IEnumerable<dynamic> mainLinks = nestedMenu.GetPropertyValue<IEnumerable<dynamic>>("mainLink");
+					foreach ( var link in mainLinks )
+					{
+						string url = link.Url;
+						string text = link.Name;
+						string target = link.Target;
+						<h3><a href="@url" target="@target">@text</a></h3>
+					}
+				}
+
+				@{
+					IEnumerable<dynamic> nestedMenuItems = nestedMenu.GetPropertyValue<IEnumerable<dynamic>>("nestedMenu");
+					foreach (var item in nestedMenuItems)
+					{
+						string target = "_self";
+						string url = "";
+						string label = item.label;
+						if (!String.IsNullOrEmpty(item.page.ToString()))
+						{
+							url = Umbraco.Content((int)item.page).Url;
+						}
+						else if (!String.IsNullOrEmpty(item.media.ToString()))
+						{
+							target = "_blank";
+							url = Umbraco.Media((int)item.media).Url;
+						}
+						else
+						{
+							target = "_blank";
+							url = item.url;
+						}
+						<a href="@url" title="@label" target="@target"><span>@Html.Raw(label)</span></a>
+					}
+				}
+				</section>
+			}
+		</div>
+
+		</nav>
+	</nav>
+</section>
+
+

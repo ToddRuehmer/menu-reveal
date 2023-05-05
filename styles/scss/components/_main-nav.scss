@@ -1,0 +1,342 @@
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: flex-end;
+	left: 100%;
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	z-index: 5000;
+
+	@include bp(sm) { 
+		background-position: top left;
+		background-size: contain;
+		display: block;
+		padding-left: 6vw;
+		left: 93%;
+	}
+
+	.background {
+		background: $gc-gold;
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		@include bp(sm) { 
+			background: $gc-gold url($images-path + 'global/bg-hop-cross.jpg') repeat-y center left;
+			background-size: contain;
+		}
+	}
+ 
+    .sidebar-container { 
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 5vh 0;
+		position: relative;
+		@include flex-box($direction:column,$justify:center);
+
+		@include bp(sm) { 
+			height: 100%;
+			@include flex-box($alignItems:center);
+		}
+	}
+ 
+    .sidebar-main { 
+		padding: 0 6vw;
+		text-align: center;
+
+		@include bp(sm) { 
+			text-align: left;
+		}
+		@include bp(md) { 
+			padding: 0 0 0 12vw;
+		}
+ 
+        a { 
+			color: $white;
+			display: block;
+			font-family: $heading-font-family-1;
+			font-size: 6vw;
+			font-weight: 100;
+			line-height: 6vh;
+			margin: 0;
+			position: relative;
+			text-decoration: none;
+			transition: opacity .1s ease-in-out;
+			&:hover { opacity: .8;
+		}
+			
+			@include bp(sm) { 
+				font-family: $heading-font-family-2;
+				font-size: 10vw;
+				line-height: $base-spacing;
+				margin: 1.5vh 0;
+				padding-top: .2em;
+			}
+			@include bp(md) { 
+				font-size: fz(100);
+			}
+			@include bp(xl) { 
+				font-size: fz(122);
+			}
+			@media only screen and (max-height: 800px) and (min-width: map-get($breakpoints,lg)) { 
+				font-size: 13vh;
+			}
+        }
+    }
+ 
+	.sidebar-utility { 
+		justify-content: center;
+		padding: 0 6vw;
+		text-align: center;
+		
+		@include bp(md) { 
+			display: flex;
+			padding: 0;
+			width: 40vw;
+		}
+
+		h3 { 
+			font-family: $heading-font-family-1;
+			font-size: 6vw;
+			margin: 0;
+
+			@include bp(sm) { 
+				font-family: $heading-font-family-2;
+				font-size: fz(36);
+				font-weight: 100;
+				margin: .75em 0 0;
+			}
+			
+			a { 
+				color: $white;
+				display: block;
+				line-height: 6vh;
+			
+				@include bp(sm) { 
+					line-height: $base-spacing;
+				}
+			}
+		}
+
+        a { 
+			color: #000;
+			display: none;
+			line-height: 6vh;
+			text-decoration: none;
+
+            &:hover { 
+				opacity: .8;
+			}
+ 
+			@include bp(sm) { 
+				display: block;
+				line-height: $base-spacing*1.5;
+			}
+		}
+
+		.column {
+			
+			@include bp(md) { 
+				margin: 0 0 $base-spacing;
+			}
+			@include bp(md) { 
+				margin: 0 0 $base-spacing 3vw;
+			}
+		}
+		
+		&-section { 
+			margin: 0;
+			
+			@include bp(sm) { 
+				margin: 1em 0 0;
+			}
+		}
+    }
+ 
+    .bar { 
+		height: 69px;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100vw;
+		z-index: 1;
+		
+		@include bp(sm) { 
+			background: none;
+			height: 100%;
+			position: absolute;
+			width: 7vw;
+
+			&:after { 
+				display: none;
+			}
+		}
+
+		&:after { 
+			content: "";
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transform: translate(0, -200%);
+			@include transition;
+			
+			@include bp(sm) { 
+				background: $gc-gold;
+			}
+		}
+		
+		&-logo { 
+			left: 50%;
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%,-250%);
+			width: $base-spacing*7;
+			z-index: 1;
+			@include transition;
+			
+			@include bp(sm) { 
+				display: none;
+			}
+		}
+    }
+	&.active {
+		.bar {
+			&:after { 
+				transform: translate(0,0);
+			}
+			&-logo { 
+				transform: translate(-50%,-50%);
+			}
+		}
+		.burger:before {
+			transform: translate(-50%,-50%) scale(1);
+		}
+	}
+ 
+    .burger { 
+		color: $white;
+		cursor: pointer;
+		height: 30px;
+		left: 50%;
+		position: fixed;
+		transform: translate(-50%,-50%) scale(.7);
+		top: 2.5em;
+		width: 2.5em;
+		z-index: 5500;
+		
+		@include bp(map-get($breakpoints,sm)-200) { 
+			transform: translate(-50%,-50%) scale(.6);
+		}
+		@include bp(sm) { 
+			left: 50%;
+			position: absolute;
+			right: $base-spacing;
+			top: 4em;
+		}
+		@include bp(map-get($breakpoints,md)-200) { 
+			transform: translate(-50%,-50%) scale(.7);
+		}
+		@include bp(md) { 
+			transform: translate(-50%,-50%) scale(.9);
+		}
+		@include bp(lg) { 
+			transform: translate(-50%,-50%) scale(1);
+		}
+
+		&:before {
+			background: $gc-gold;
+			border-radius: 100%;
+			content: '';
+			display: block;
+			left: 50%;
+			padding-bottom: 170%;
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%,-50%) scale(0);
+			transition: transform .2s;
+			width: 170%;
+		}
+ 
+		div.x, div.y, div.z { 
+			background-color: $white;
+			bottom: 0;
+			height: 5px;
+			position: absolute;
+			top: 0;
+			transition: all 200ms ease-out;
+			transform-origin: center;
+			width: 100%;
+		}
+	 
+		div.x { 
+			top: 50%;
+			transform: translate(0,-15px);
+		}
+	 
+		div.y { 
+			top: 50%;
+			transform: translate(0,-2.5px);
+		}
+	 
+		div.z { 
+			top: 50%;
+			transform: translate(0,10px);
+		}
+	 
+		div.collapse { 
+			top: 20px;
+			transition: all 70ms ease-out;
+		}
+	 
+		div.rotate30 { 
+			transform: rotate(30deg);
+			transition: all 50ms ease-out;
+		}
+	 
+		div.rotate150 { 
+			transform: rotate(150deg);
+			transition: all 50ms ease-out;
+		}
+	 
+		div.rotate45 { 
+			transform: rotate(45deg);
+			transition: all 100ms ease-out;
+		}
+	 
+		div.rotate135 { 
+			transform: rotate(135deg);
+			transition: all 100ms ease-out;
+		}
+    }
+
+	&-social { 
+		display: none;
+		left: 0;
+		position: absolute;
+		text-align: center;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 5500;
+
+		@include bp(sm) { 
+			bottom: 1em;
+			display: block;
+			float: left;
+			left: 50%;
+			top: auto;
+			transform: translateX(-50%);
+		}
+
+		a { 
+			color: $white;
+			font-size: 3em;
+			transition: color,border-color 0.1s linear;
+		}
+	}
+}
